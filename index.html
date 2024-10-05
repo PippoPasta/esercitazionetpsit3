@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function generateRandomInteger(min, max) {
+            let casualNumber = Math.random()
+            casualNumber = casualNumber * max
+            casualNumber = parseInt(casualNumber)
+            return casualNumber
+        }
+        function sanitize(inputString){
+            let sanitized = inputString.toLowerCase().trim()
+            return sanitized
+        }
+
+        let numerodaindovinare;
+        let tentativi;
+        let numeroinput;
+
+        tentativi = 5
+        numerodaindovinare = generateRandomInteger(1,100)
+        console.log(numerodaindovinare)
+        numeroinput = prompt("Indovina il numero da 1-100 (" + tentativi + " tentativi)")
+        tentativi = tentativi - 1
+        numeroinput = sanitize(numeroinput)
+
+        while (tentativi > 0){
+            if (numeroinput > numerodaindovinare){
+                console.log("Troppo grande")
+                numeroinput = prompt("Indovina il numero da 1-100 (" + tentativi + " tentativi)")
+                tentativi = tentativi - 1
+                numeroinput = sanitize(numeroinput)
+            }
+            if (numeroinput < numerodaindovinare){
+                console.log("Troppo piccolo")
+                numeroinput = prompt("Indovina il numero da 1-100 (" + tentativi + " tentativi)")
+                tentativi = tentativi - 1
+                numeroinput = sanitize(numeroinput)
+            }
+            if (numeroinput == numerodaindovinare){
+            console.log("Bravo, hai vinto")
+            }
+        }
+        if (tentativi === 0){
+            alert("Tentativi esauriti")
+            }
+    </script>
+</body>
+</html>
