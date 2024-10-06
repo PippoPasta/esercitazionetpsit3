@@ -1,54 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <script>
-        function generateRandomInteger(min, max) {
-            let casualNumber = Math.random()
-            casualNumber = casualNumber * max
-            casualNumber = parseInt(casualNumber)
-            return casualNumber
+        // VERSIONE 1 DI GET RANDOM INTEGER (è quella utilizzata):
+        function getRandomIntegerV1(valoreMinimo, valoreMassimo) {
+            // Funzione che restituisce un numero casuale intero compreso tra valori minimo e massimo passati come argomenti.
+            // Utilizza la tecnica di aggiustamento valore massimo con restituzione finale della sola parte intera.
+            let rand = valoreMinimo + Math.random() * (valoreMassimo - valoreMinimo + 1);
+            return Math.floor(rand);
         }
-        function sanitize(inputString){
+
+        // VERSIONE 2 DI GET RANDOM INTEGER:
+        function getRandomIntegerV2(valoreMinimo, valoreMassimo) {
+            // Funzione che restituisce un numero casuale intero compreso tra valori minimo e massimo passati come argomenti.
+            // Utilizza la tecnica di aggiustamento valore minimo e massimo con arrotondamento matematico finale.
+            let rand = valoreMinimo - 0.5 + Math.random() * (valoreMassimo - valoreMinimo + 1);
+            return Math.round(rand);
+        }
+
+        // VERSIONE 3 DI GET RANDOM INTEGER (abbreviata):
+        function getRandomIntegerV3(valoreMinimo, valoreMassimo) {
+            // Funzione che restituisce un numero casuale intero compreso tra valori minimo e massimo passati come argomenti.
+            // Utilizza la tecnica di aggiustamento valore massimo con restituzione finale della sola parte intera.
+            // Viene utilizzata un'unica riga.
+            return Math.floor(valoreMinimo + Math.random() * (valoreMassimo - valoreMinimo + 1));
+        }
+
+        // VERSIONE 4 DI GET RANDOM INTEGER (abbreviata):
+        function getRandomIntegerV4(valoreMinimo, valoreMassimo) {
+            // Funzione che restituisce un numero casuale intero compreso tra valori minimo e massimo passati come argomenti.
+            // Utilizza la tecnica di aggiustamento valore minimo e massimo con arrotondamento matematico finale.
+            // Viene utilizzata un'unica riga.
+            return Math.round(valoreMinimo - 0.5 + Math.random() * (valoreMassimo - valoreMinimo + 1));
+        }
+
+        function sanitize(inputString) {
             let sanitized = inputString.toLowerCase().trim()
             return sanitized
         }
 
-        let numerodaindovinare;
-        let tentativi;
-        let numeroinput;
+        let tentativiMax; 
+        let tentativiEffettuati;
+        let numeroDaIndovinare;
+        let numeroInput;
+        let indovinato; // flag acceso se l'utente indovina il numero
+        let proceduraInterrottaDallUtente; // flag acceso se l'utente interrompe la procedura
 
-        tentativi = 5
-        numerodaindovinare = generateRandomInteger(1,100)
-        console.log(numerodaindovinare)
-        numeroinput = prompt("Indovina il numero da 1-100 (" + tentativi + " tentativi)")
-        tentativi = tentativi - 1
-        numeroinput = sanitize(numeroinput)
+        tentativiMax = 5
+        tentativiEffettuati = 0
+        numeroDaIndovinare = getRandomIntegerV1(1, 100)
+        indovinato = false
+        proceduraInterrottaDallUtente = false
 
-        while (tentativi > 0){
-            if (numeroinput > numerodaindovinare){
-                console.log("Troppo grande")
-                numeroinput = prompt("Indovina il numero da 1-100 (" + tentativi + " tentativi)")
-                tentativi = tentativi - 1
-                numeroinput = sanitize(numeroinput)
+        while (tentativiEffettuati < tentativiMax && !indovinato) {
+            numeroInput = prompt("Indovina il numero da 1 a 100 (Tentativo " + (tentativiEffettuati + 1) + " di " + tentativiMax + ") " + numeroDaIndovinare)
+            if (numeroInput === null) {
+                // Se l'utente preme "Annulla" esce dalla procedura
+                proceduraInterrottaDallUtente = true
+                break
             }
-            if (numeroinput < numerodaindovinare){
-                console.log("Troppo piccolo")
-                numeroinput = prompt("Indovina il numero da 1-100 (" + tentativi + " tentativi)")
-                tentativi = tentativi - 1
-                numeroinput = sanitize(numeroinput)
-            }
-            if (numeroinput == numerodaindovinare){
-            console.log("Bravo, hai vinto")
+            numeroInput = sanitize(numeroInput)
+            numeroInput = parseInt(numeroInput)
+            if (isNaN(numeroInput) || numeroInput < 1 || numeroInput > 100) {
+                alert("Il valore inserito non è compreso tra 1 e 100. Riprovare.")
+            } else {
+                tentativiEffettuati += 1
+                if (numeroInput > numeroDaIndovinare) {
+                    console.log("Troppo grande")
+                }
+                if (numeroInput < numeroDaIndovinare) {
+                    console.log("Troppo piccolo")
+                }
+                if (numeroInput === numeroDaIndovinare) {
+                    indovinato = true
+                }
             }
         }
-        if (tentativi === 0){
-            alert("Tentativi esauriti")
+
+        if (!proceduraInterrottaDallUtente) {
+            if (!indovinato) {
+                console.log("Sono stati esauriti i " + tentativiMax + " tentativi disponibili.")
+            } else {
+                console.log("Bravo, hai vinto in " + tentativiEffettuati + " tentativ" + (tentativiEffettuati === 1 ? 'o' : 'i') + " su " + tentativiMax)
             }
+        } else {
+            console.log("La procedura \"Indovina il numero magico\" è stata interrotta dall'utente.")
+        }
+
     </script>
 </body>
+
 </html>
