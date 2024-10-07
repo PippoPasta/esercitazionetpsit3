@@ -60,7 +60,7 @@
         proceduraInterrottaDallUtente = false
 
         while (tentativiEffettuati < tentativiMax && !indovinato) {
-            numeroInput = prompt("Indovina il numero da 1 a 100 (Tentativo " + (tentativiEffettuati + 1) + " di " + tentativiMax + ") " + numeroDaIndovinare)
+            numeroInput = prompt("Indovina il numero da 1 a 100 (Tentativo " + (tentativiEffettuati + 1) + " di " + tentativiMax + ") ")
             if (numeroInput === null) {
                 // Se l'utente preme "Annulla" esce dalla procedura
                 proceduraInterrottaDallUtente = true
