@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Guess the number</h1>
+
+    Ho generato un numero casuale.. prova ad indovinarlo!
+    <br>
+
+    <form action="" method="get">
+        <input id="prova" type="number" name="user_guess">
+        <input id="btn" type="button" name="guess" value="Indovina">
+    </form>
+
+    <script>
+        function getRandomIntegerV1(valoreMinimo, valoreMassimo) {
+            // Funzione che restituisce un numero casuale intero compreso tra valori minimo e massimo passati come argomenti.
+            // Utilizza la tecnica di aggiustamento valore massimo con restituzione finale della sola parte intera.
+            let rand = valoreMinimo + Math.random() * (valoreMassimo - valoreMinimo + 1);
+            return Math.floor(rand);
+        }
+
+        // 1. Dichiaro una variabile e con querySelector memorizzo il button
+        let btn = document.querySelector("#btn")
+        let prova = document.querySelector("#prova")
+        let numeroDaIndovinare = getRandomIntegerV1(1, 100)
+        console.log(numeroDaIndovinare)
+        let tentativi = 5;
+        let indovinato = false
+
+        // 2. dichiaro un EVENT LISTENER sul button
+        // Questa funzione viene eseguita SOLO dopo che l'utente clicca sul button
+        // 1 prendo l'elemento html in cui l'utente ha scritto il numero
+        // 2 Trasformo in intero il numero 
+        // 3 Controllo i valori
+        // 4 in console scrivo i risultati --> PER IL MOMENTO
+        btn.addEventListener("click", () => {
+            let provaValue = parseInt(prova.value)
+            if (isNaN(provaValue)){
+                alert("Valore non valido. Riprova")
+            }
+            
+            // Se non ho indovinato, posso ancora giocare
+            if (!indovinato) {
+                // Se non ho finito i tentativi, posso ancora giocare
+                if (tentativi != 0) {
+                    // ho vinto?
+                    if (provaValue == numeroDaIndovinare){
+                        console.log("bravo")
+                        indovinato = true
+                    }
+                    else {
+                        // Non ho vinto
+                        tentativi = tentativi - 1
+                        if (tentativi != 0) {
+                            if (provaValue > numeroDaIndovinare){
+                                alert("Troppo grande " + tentativi + " tentativi rimasti")
+                            }
+                            else if (provaValue < numeroDaIndovinare){
+                                alert("Troppo piccolo " + tentativi + " tentativi rimasti")
+                            }
+                        }
+                    }
+                }
+                
+                if (tentativi == 0) {
+                    alert("Tentativi terminati, Game Over")
+                }
+            }
+        })
+    </script>
+</body>
+</html>
